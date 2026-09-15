@@ -9,7 +9,7 @@
 
   var CART_KEY = "tg_cart"; // localStorage: [{ id, quantity }]
   var ORDER_KEY = "tg_order"; // sessionStorage: the order object
-  var CURRENCY = "£"; // display only; never reaches the catalog
+  var CURRENCY = "$"; // display only; never reaches the catalog
 
   // ------------------------------------------------------------------- utils
 
