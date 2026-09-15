@@ -1,0 +1,182 @@
+[
+  {
+    "id": "TG-001",
+    "name": "Summit Trail Hiking Boots",
+    "categoryId": "footwear",
+    "price": 129.99,
+    "brand": "TrailGear",
+    "inventoryCount": 12,
+    "description": "Waterproof, breathable hiking boots built for rocky terrain."
+  },
+  {
+    "id": "TG-002",
+    "name": "Ridgeline Trail Running Shoes",
+    "categoryId": "footwear",
+    "price": 99.99,
+    "brand": "TrailGear",
+    "inventoryCount": 20,
+    "description": "Lightweight trail runners with aggressive lugs for loose ground."
+  },
+  {
+    "id": "TG-003",
+    "name": "Granite Approach Shoes",
+    "categoryId": "footwear",
+    "price": 114.99,
+    "brand": "SummitPro",
+    "inventoryCount": 8,
+    "description": "Sticky rubber approach shoes for scrambling and via ferrata."
+  },
+  {
+    "id": "TG-004",
+    "name": "Glacier Insulated Winter Boots",
+    "categoryId": "footwear",
+    "price": 169.99,
+    "brand": "SummitPro",
+    "inventoryCount": 5,
+    "description": "Insulated to -30C, with a waterproof membrane and gusseted tongue."
+  },
+  {
+    "id": "TG-005",
+    "name": "Basecamp Camp Sandals",
+    "categoryId": "footwear",
+    "price": 39.99,
+    "brand": "PeakFlow",
+    "inventoryCount": 30,
+    "description": "Quick-drying camp sandals that give your feet a break after a long day."
+  },
+  {
+    "id": "TG-006",
+    "name": "AlpineFlex Softshell Jacket",
+    "categoryId": "apparel",
+    "price": 89.99,
+    "brand": "TrailGear",
+    "inventoryCount": 15,
+    "description": "Wind-resistant softshell with four-way stretch for active days."
+  },
+  {
+    "id": "TG-007",
+    "name": "Merino Wool Base Layer",
+    "categoryId": "apparel",
+    "price": 45.00,
+    "brand": "TrailGear",
+    "inventoryCount": 40,
+    "description": "Odour-resistant merino base layer that regulates in any season."
+  },
+  {
+    "id": "TG-008",
+    "name": "Cirrus Down Puffer Jacket",
+    "categoryId": "apparel",
+    "price": 199.99,
+    "brand": "SummitPro",
+    "inventoryCount": 0,
+    "description": "800-fill responsibly sourced down in a packable 340g shell."
+  },
+  {
+    "id": "TG-009",
+    "name": "Stormline Rain Shell",
+    "categoryId": "apparel",
+    "price": 139.99,
+    "brand": "SummitPro",
+    "inventoryCount": 11,
+    "description": "Seam-sealed 3-layer rain shell with pit zips and a stowable hood."
+  },
+  {
+    "id": "TG-010",
+    "name": "Traverse Hiking Pants",
+    "categoryId": "apparel",
+    "price": 74.99,
+    "brand": "PeakFlow",
+    "inventoryCount": 25,
+    "description": "Abrasion-resistant hiking pants with zip-off lower legs."
+  },
+  {
+    "id": "TG-011",
+    "name": "60L Expedition Backpack",
+    "categoryId": "gear",
+    "price": 159.99,
+    "brand": "SummitPro",
+    "inventoryCount": 9,
+    "description": "Sixty litre pack with an adjustable harness and integrated rain cover."
+  },
+  {
+    "id": "TG-012",
+    "name": "4-Season Tent (2-Person)",
+    "categoryId": "gear",
+    "price": 249.99,
+    "brand": "SummitPro",
+    "inventoryCount": 4,
+    "description": "Geodesic two-person tent rated for winter wind and snow loading."
+  },
+  {
+    "id": "TG-013",
+    "name": "Alpine Down Sleeping Bag",
+    "categoryId": "gear",
+    "price": 179.99,
+    "brand": "TrailGear",
+    "inventoryCount": 7,
+    "description": "Mummy bag comfort rated to -10C, with a draft collar and full-length zip."
+  },
+  {
+    "id": "TG-014",
+    "name": "Compact Camp Stove",
+    "categoryId": "gear",
+    "price": 59.99,
+    "brand": "PeakFlow",
+    "inventoryCount": 22,
+    "description": "Folding canister stove that boils a litre in under four minutes."
+  },
+  {
+    "id": "TG-015",
+    "name": "Trekking Poles (Pair)",
+    "categoryId": "gear",
+    "price": 39.99,
+    "brand": "SummitPro",
+    "inventoryCount": 33,
+    "description": "Three-section aluminium poles with cork grips and carbide tips."
+  },
+  {
+    "id": "TG-016",
+    "name": "Insulated Water Bottle 32oz",
+    "categoryId": "accessories",
+    "price": 24.99,
+    "brand": "PeakFlow",
+    "inventoryCount": 50,
+    "description": "Double-walled steel bottle: 24 hours cold, 12 hours hot."
+  },
+  {
+    "id": "TG-017",
+    "name": "Fleece-Lined Beanie",
+    "categoryId": "accessories",
+    "price": 19.99,
+    "brand": "PeakFlow",
+    "inventoryCount": 45,
+    "description": "Knitted beanie with a fleece band that actually covers your ears."
+  },
+  {
+    "id": "TG-018",
+    "name": "Polarized Sport Sunglasses",
+    "categoryId": "accessories",
+    "price": 54.99,
+    "brand": "PeakFlow",
+    "inventoryCount": 18,
+    "description": "Polarised Category 3 lenses in a no-slip wraparound frame."
+  },
+  {
+    "id": "TG-019",
+    "name": "Trailhead Headlamp 300lm",
+    "categoryId": "accessories",
+    "price": 34.99,
+    "brand": "TrailGear",
+    "inventoryCount": 27,
+    "description": "300 lumen USB-C rechargeable headlamp with a red night mode."
+  },
+  {
+    "id": "TG-020",
+    "name": "Softshell Trail Gloves",
+    "categoryId": "accessories",
+    "price": 29.99,
+    "brand": "TrailGear",
+    "inventoryCount": 36,
+    "description": "Touchscreen-compatible softshell gloves with a silicone palm grip."
+  }
+]

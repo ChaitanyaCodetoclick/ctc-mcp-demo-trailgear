@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-label="Summit Trail Hiking Boots">
+  <rect width="400" height="400" fill="#e6efe9"/>
+  <circle cx="200" cy="128" r="62" fill="#2f6f4f" opacity="0.18"/>
+  <circle cx="200" cy="128" r="30" fill="#2f6f4f" opacity="0.45"/>
+  <text x="200" y="322" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" letter-spacing="2" fill="#2f6f4f">FOOTWEAR</text>
+  <text x="200" y="348" text-anchor="middle" font-family="Consolas, monospace" font-size="13" fill="#5f6b66">TG-001</text>
+  <text x="200" y="217" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" fill="#1c2321">Summit Trail</text>
+  <text x="200" y="247" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" fill="#1c2321">Hiking Boots</text>
+</svg>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product | TrailGear Outfitters</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/datalayer.js" data-page-type="product"></script>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="index.html">TrailGear Outfitters</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<main>
+  <div id="product-detail"></div>
+
+  <!-- In the initial HTML, not created by app.js, so the sitemap's click
+       listener (PLAN 3.2) always has an element to bind to. app.js only
+       toggles its state once the product resolves. -->
+  <div class="actions">
+    <button id="add-to-cart-btn" type="button">Add to cart</button>
+    <a href="catalog.html">Back to catalog</a>
+  </div>
+
+  <!-- Zone: "More in this category" (PLAN 4.1). -->
+  <h2>More in this category</h2>
+  <div class="mcp-zone" id="mcp-zone-pdp" data-zone-label="MCP zone: #mcp-zone-pdp (category recommendations)"></div>
+</main>
+
+<footer>Fictional retailer. Demo site for Marketing Cloud Personalization.</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

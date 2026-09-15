@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog | TrailGear Outfitters</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/datalayer.js" data-page-type="catalog"></script>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="index.html">TrailGear Outfitters</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<main>
+  <h1 id="catalog-heading">All products</h1>
+
+  <!-- These hrefs are the same category URLs written into mcp_categories.csv,
+       so a category link in a recommendation lands on a real page. -->
+  <div class="cat-filters">
+    <a class="cat-filter" data-category="" href="catalog.html">All</a>
+    <a class="cat-filter" data-category="footwear" href="catalog.html?category=footwear">Footwear</a>
+    <a class="cat-filter" data-category="apparel" href="catalog.html?category=apparel">Apparel</a>
+    <a class="cat-filter" data-category="gear" href="catalog.html?category=gear">Gear</a>
+    <a class="cat-filter" data-category="accessories" href="catalog.html?category=accessories">Accessories</a>
+  </div>
+
+  <div class="grid" id="product-grid"></div>
+</main>
+
+<footer>Fictional retailer. Demo site for Marketing Cloud Personalization.</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart | TrailGear Outfitters</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="assets/js/datalayer.js" data-page-type="cart"></script>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="index.html">TrailGear Outfitters</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Your cart</h1>
+
+  <div id="cart-items"></div>
+  <div id="cart-summary"></div>
+
+  <div class="actions">
+    <!-- Checkout fires no MCP event. It hands the order to thankyou.html via
+         sessionStorage and the purchase interaction fires there (PLAN 1.4). -->
+    <button id="checkout-btn" type="button" disabled>Checkout</button>
+    <a href="catalog.html">Continue shopping</a>
+  </div>
+</main>
+
+<footer>Fictional retailer. Demo site for Marketing Cloud Personalization.</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

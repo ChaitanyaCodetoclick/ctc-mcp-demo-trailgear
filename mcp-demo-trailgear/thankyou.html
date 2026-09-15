@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order confirmed | TrailGear Outfitters</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<!-- pageType "order". datalayer.js reads sessionStorage.tg_order and exposes it
+     as window.TG.order only if it has not already been tracked, which is what
+     stops a refresh re-firing the purchase interaction (PLAN 1.4). -->
+<script src="assets/js/datalayer.js" data-page-type="order"></script>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="index.html">TrailGear Outfitters</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Thanks for your order</h1>
+  <p class="lede">A confirmation would be on its way, if this shop were real.</p>
+
+  <div id="order-summary"></div>
+
+  <div class="actions">
+    <a href="catalog.html">Keep shopping</a>
+  </div>
+</main>
+
+<footer>Fictional retailer. Demo site for Marketing Cloud Personalization.</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

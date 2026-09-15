@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrailGear Outfitters</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<!-- Data layer first. window.TG must exist before the beacon initialises
+     (PLAN 1.2 / Appendix A). datalayer.js injects the beacon itself once
+     window.TG is complete - do not add a beacon <script> tag here. -->
+<script src="assets/js/datalayer.js" data-page-type="home"></script>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="index.html">TrailGear Outfitters</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<main>
+  <!-- Zone: segment-driven banner (PLAN 4.3). Empty until a campaign targets it. -->
+  <div class="mcp-zone banner" id="mcp-zone-banner" data-zone-label="MCP zone: #mcp-zone-banner (segment banner)"></div>
+
+  <h1>Gear that goes the distance</h1>
+  <p class="lede">Boots, shells, packs and the small things you only miss when you forget them.</p>
+
+  <!-- Zone: recommendations, e.g. Recently Viewed (PLAN 4.2). -->
+  <h2>Recommended for you</h2>
+  <div class="mcp-zone" id="mcp-zone-home" data-zone-label="MCP zone: #mcp-zone-home (recommendations)"></div>
+
+  <!-- Static, not personalised. Kept separate from the zones above so the demo
+       never confuses hard-coded content with MCP output. -->
+  <h2>Featured</h2>
+  <div class="grid" id="featured-grid"></div>
+</main>
+
+<footer>Fictional retailer. Demo site for Marketing Cloud Personalization.</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

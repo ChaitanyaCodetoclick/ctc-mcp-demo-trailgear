@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build MCP catalog files</title>
+<style>
+  body { font: 15px/1.5 system-ui, "Segoe UI", Arial, sans-serif; max-width: 960px; margin: 32px auto; padding: 0 24px; color: #1c2321; }
+  h1 { font-size: 22px; }
+  p.lede { color: #5f6b66; }
+  label { display: block; font-weight: 600; margin: 20px 0 6px; }
+  input[type=url] { width: 100%; padding: 8px; font: inherit; border: 1px solid #dfe4e1; border-radius: 4px; }
+  button { font: inherit; padding: 9px 18px; border: 0; border-radius: 4px; background: #2f6f4f; color: #fff; cursor: pointer; margin: 16px 8px 0 0; }
+  button:disabled { background: #5f6b66; cursor: not-allowed; }
+  table { border-collapse: collapse; width: 100%; margin-top: 24px; font-size: 13px; }
+  th, td { border-bottom: 1px solid #dfe4e1; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f4f7f5; }
+  td.url { font-family: ui-monospace, Consolas, monospace; font-size: 11px; word-break: break-all; }
+  .bad { color: #a33; font-weight: 700; }
+  .note { background: #f4f7f5; border-left: 3px solid #2f6f4f; padding: 12px 16px; margin: 24px 0; }
+  #status { margin-top: 12px; color: #5f6b66; }
+</style>
+</head>
+<body>
+
+<h1>Build MCP catalog import files</h1>
+<p class="lede">
+  Replaces <code>build_catalog.py</code> from the plan. Reads
+  <code>data/products.json</code> &mdash; the single source of truth &mdash; derives
+  <code>url</code> and <code>imageUrl</code> from each <code>id</code>, and downloads the two
+  CSVs for the Personalization catalog import. Never hand-edit the CSVs.
+</p>
+
+<div class="note">
+  Must be opened over <strong>http(s)</strong>, not <code>file://</code>, or the
+  <code>fetch</code> of products.json is blocked. Serving the repo root with any static
+  server and opening <code>/data/build-catalog.html</code> is enough.
+</div>
+
+<label for="base">Base URL &mdash; the final public site root, no trailing slash</label>
+<input type="url" id="base" placeholder="https://&lt;username&gt;.github.io/mcp-demo-trailgear">
+<p class="lede">
+  Pre-filled from wherever this page is being served. It must be the
+  <em>public</em> URL of the deployed site: catalog URLs have to be absolute and
+  reachable, or items are dropped from recommendations silently (PLAN 2.1).
+</p>
+
+<button id="btn-products" disabled>Download mcp_products.csv</button>
+<button id="btn-categories" disabled>Download mcp_categories.csv</button>
+<div id="status">Loading products.json&hellip;</div>
+
+<table id="preview"></table>
+
+<script>
+(function () {
+  "use strict";
+
+  // Must stay identical to the derivation in assets/js/datalayer.js. If the two
+  // ever disagree, the IDs and URLs the sitemap tracks will not match the
+  // imported catalog and zones render empty with no explanation (PLAN 2.3).
+  var CATEGORIES = {
+    footwear: "Footwear",
+    apparel: "Apparel",
+    gear: "Gear",
+    accessories: "Accessories"
+  };
+
+  function productUrl(base, id) { return base + "/product.html?id=" + encodeURIComponent(id); }
+  function imageUrl(base, id) { return base + "/assets/img/" + encodeURIComponent(id) + ".svg"; }
+  function categoryUrl(base, id) { return base + "/catalog.html?category=" + encodeURIComponent(id); }
+
+  var baseInput = document.getElementById("base");
+  var status = document.getElementById("status");
+  var preview = document.getElementById("preview");
+  var btnProducts = document.getElementById("btn-products");
+  var btnCategories = document.getElementById("btn-categories");
+  var products = [];
+
+  baseInput.value = new URL("..", window.location.href).href.replace(/\/+$/, "");
+
+  function base() { return baseInput.value.trim().replace(/\/+$/, ""); }
+
+  // RFC 4180: quote every cell, double any embedded quote. Descriptions contain
+  // commas, so unquoted output would silently shift columns.
+  function cell(value) {
+    return '"' + String(value == null ? "" : value).replace(/"/g, '""') + '"';
+  }
+  function toCsv(headers, rows) {
+    return [headers.join(",")]
+      .concat(rows.map(function (r) { return r.map(cell).join(","); }))
+      .join("\r\n") + "\r\n";
+  }
+
+  function download(filename, text) {
+    var blob = new Blob([text], { type: "text/csv;charset=utf-8" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+  }
+
+  var PRODUCT_HEADERS = ["id", "name", "url", "imageUrl", "description",
+                         "price", "brand", "inventoryCount", "categoryId"];
+
+  function productRows() {
+    var b = base();
+    return products.map(function (p) {
+      return [p.id, p.name, productUrl(b, p.id), imageUrl(b, p.id), p.description,
+              p.price, p.brand, p.inventoryCount, p.categoryId];
+    });
+  }
+
+  function categoryRows() {
+    var b = base();
+    return Object.keys(CATEGORIES).map(function (id) {
+      return [id, CATEGORIES[id], categoryUrl(b, id)];
+    });
+  }
+
+  // PLAN 2.1 eligibility: a product needs name, id, url, imageUrl, price and a
+  // non-zero-or-null inventory to be returned by a recipe. Anything missing is
+  // dropped silently, so it is worth seeing before importing rather than after.
+  function eligibility(p) {
+    var missing = ["id", "name", "price", "categoryId", "description"].filter(function (f) {
+      return p[f] === undefined || p[f] === null || p[f] === "";
+    });
+    if (missing.length) return "missing " + missing.join(", ");
+    if (p.inventoryCount === 0) return "zero inventory - excluded by design";
+    return "";
+  }
+
+  function renderPreview() {
+    var rows = productRows();
+    var html = "<tr><th>id</th><th>name</th><th>category</th><th>price</th><th>inv</th><th>url</th><th>eligibility</th></tr>";
+    rows.forEach(function (r, i) {
+      var note = eligibility(products[i]);
+      html += "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[8] +
+              "</td><td>" + r[5] + "</td><td>" + r[7] +
+              "</td><td class='url'>" + r[2] + "</td><td class='" +
+              (note ? "bad" : "") + "'>" + (note || "ok") + "</td></tr>";
+    });
+    preview.innerHTML = html;
+  }
+
+  baseInput.addEventListener("input", function () {
+    if (products.length) renderPreview();
+  });
+
+  btnProducts.addEventListener("click", function () {
+    download("mcp_products.csv", toCsv(PRODUCT_HEADERS, productRows()));
+  });
+  btnCategories.addEventListener("click", function () {
+    download("mcp_categories.csv", toCsv(["id", "name", "url"], categoryRows()));
+  });
+
+  fetch("products.json", { cache: "no-cache" })
+    .then(function (res) {
+      if (!res.ok) throw new Error("products.json " + res.status);
+      return res.json();
+    })
+    .then(function (list) {
+      products = list;
+      btnProducts.disabled = false;
+      btnCategories.disabled = false;
+      status.textContent = "Loaded " + products.length + " products, " +
+        Object.keys(CATEGORIES).length + " categories. Import categories first.";
+      renderPreview();
+    })
+    .catch(function (err) {
+      status.innerHTML = "<span class='bad'>Could not load products.json: " +
+        err.message + ". Serve the repo over http rather than opening the file directly.</span>";
+    });
+})();
+</script>
+
+</body>
+</html>
