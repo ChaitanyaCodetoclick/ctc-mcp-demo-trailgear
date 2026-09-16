@@ -19,7 +19,7 @@
     //   "//cdn.evgnet.com/beacon/<account>/<dataset>/scripts/evergage.min.js"
     // Leave null until account + dataset are confirmed (PLAN Phase 0.1-0.2).
     // While null, the site runs normally with no tracking.
-    beaconUrl: null,
+    beaconUrl: '//cdn.evgnet.com/beacon/revolvesoftechllc/revotrixnew/scripts/evergage.min.js',
 
     // null => derived from window.location. Derivation means the absolute URLs
     // written into window.TG can never drift from wherever the site is served,
@@ -72,6 +72,7 @@
     products: null, // populated from data/products.json
     product: null, // product pages only
     order: null, // order page only, and only when it should be tracked
+    loadError: null, // human-readable reason the catalog failed to load
     productUrl: productUrl,
     imageUrl: imageUrl,
     categoryUrl: categoryUrl
@@ -169,7 +170,17 @@
       }
     })
     .catch(function (err) {
-      console.error("[TG] catalog load failed:", err);
+      // By far the most common cause is the page being opened straight from
+      // disk, where the browser blocks fetch() outright. Recorded on window.TG
+      // so app.js can say so on the page: an empty grid is indistinguishable
+      // from an empty catalog, which is the worst symptom this could have.
+      TG.loadError =
+        window.location.protocol === "file:"
+          ? "This page was opened directly from disk (a file:// URL). Browsers " +
+            "block fetch() on file:// origins, so data/products.json cannot be " +
+            "read. Serve the repo over http:// instead - see README.md."
+          : "Could not load data/products.json (" + err.message + ").";
+      console.error("[TG] catalog load failed:", TG.loadError, err);
       TG.products = [];
     })
     .then(function () {
