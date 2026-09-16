@@ -19,7 +19,7 @@
     //   "//cdn.evgnet.com/beacon/<account>/<dataset>/scripts/evergage.min.js"
     // Leave null until account + dataset are confirmed (PLAN Phase 0.1-0.2).
     // While null, the site runs normally with no tracking.
-    beaconUrl: '//cdn.evgnet.com/beacon/revolvesoftechllc/revotrixnew/scripts/evergage.min.js',
+    beaconUrl: '//cdn.evgnet.com/beacon/revolvesoftechllc/chaitanyacodetoclick01/scripts/evergage.min.js',
 
     // null => derived from window.location. Derivation means the absolute URLs
     // written into window.TG can never drift from wherever the site is served,
