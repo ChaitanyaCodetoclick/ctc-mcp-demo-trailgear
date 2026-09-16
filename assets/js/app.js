@@ -364,11 +364,44 @@
     }
   }
 
+  // --------------------------------------------------------------- load error
+
+  // Painted in place of whatever the page would normally render. Every page
+  // needs the catalog, so there is nothing useful to show alongside it.
+  function renderLoadError() {
+    var target =
+      $("#product-grid") ||
+      $("#product-detail") ||
+      $("#cart-items") ||
+      $("#order-summary") ||
+      $("#featured-grid");
+    if (!target) return;
+
+    var box = el("div", "load-error");
+    box.appendChild(el("strong", null, "Catalog could not be loaded"));
+    box.appendChild(el("p", null, window.TG.loadError));
+    target.textContent = "";
+    target.appendChild(box);
+  }
+
   // -------------------------------------------------------------------- boot
 
   paintCartCount();
 
+  if (!window.TG_READY) {
+    console.error(
+      "[TG] datalayer.js did not run - window.TG_READY is undefined. Check the " +
+        "<script src=\"assets/js/datalayer.js\"> tag in <head>."
+    );
+    return;
+  }
+
   window.TG_READY.then(function () {
+    if (window.TG.loadError) {
+      renderLoadError();
+      return;
+    }
+
     var renderers = {
       home: renderHome,
       catalog: renderCatalog,

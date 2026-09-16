@@ -178,6 +178,17 @@ button:disabled { background: var(--muted); cursor: not-allowed; }
 .order-id { font-family: ui-monospace, Consolas, monospace; color: var(--muted); }
 
 .empty { color: var(--muted); padding: 24px 0; }
+
+.load-error {
+  border: 1px solid var(--warn);
+  border-left-width: 4px;
+  border-radius: 4px;
+  padding: 16px 20px;
+  color: var(--ink);
+  grid-column: 1 / -1;
+}
+.load-error strong { color: var(--warn); }
+.load-error p { margin: 6px 0 0; }
 .actions { margin-top: 20px; display: flex; gap: 16px; align-items: center; }
 
 @media (max-width: 720px) {
