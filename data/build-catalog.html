@@ -102,8 +102,19 @@
     URL.revokeObjectURL(link.href);
   }
 
-  var PRODUCT_HEADERS = ["id", "name", "url", "imageUrl", "description",
-                         "price", "brand", "inventoryCount", "categoryId"];
+  //var PRODUCT_HEADERS = ["id", "name", "url", "imageUrl", "description",
+  //                       "price", "brand", "inventoryCount", "categoryId"];
+  var PRODUCT_HEADERS = [
+    "id",
+    "attribute:name",
+    "attribute:url",
+    "attribute:imageUrl",
+    "attribute:description",
+    "attribute:price",
+    "attribute:brand",
+    "attribute:inventoryCount",
+    "attribute:categoryId"
+];
 
   function productRows() {
     var b = base();

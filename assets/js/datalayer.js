@@ -66,17 +66,74 @@
   var pageType = (script && script.getAttribute("data-page-type")) || "default";
 
   var TG = (window.TG = {
-    pageType: pageType, // home | catalog | product | cart | order
+    pageType: pageType, // home | catalog | product | cart | order | signin
     baseUrl: BASE_URL,
     categories: CATEGORIES,
     products: null, // populated from data/products.json
     product: null, // product pages only
     order: null, // order page only, and only when it should be tracked
+    user: null, // { email } once signed in, on every page (PLAN 7.2)
     loadError: null, // human-readable reason the catalog failed to load
     productUrl: productUrl,
     imageUrl: imageUrl,
     categoryUrl: categoryUrl
   });
+
+  // ---------------------------------------------------------------- identity
+
+  // PLAN 7.2. The signed-in shopper, as far as this site knows. There is no
+  // password and no server: "signed in" means an email sitting in localStorage.
+  // That is enough to demonstrate identity resolution, which is all MCP needs -
+  // it never sees a password, only the identity attribute (the email).
+  //
+  // Read synchronously, here, rather than after the catalog fetch. The beacon
+  // is injected only once TG_READY resolves, so window.TG.user is guaranteed to
+  // be in place before the sitemap's onActionEvent reads it for the very first
+  // event on the page.
+  var USER_KEY = "tg_user"; // localStorage: { email }
+
+  function readUser() {
+    try {
+      var user = JSON.parse(window.localStorage.getItem(USER_KEY));
+      return user && user.email ? user : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // MCP matches identities as exact strings. Without this, "Demo1@Example.com"
+  // and "demo1@example.com" would resolve to two different people.
+  function normaliseEmail(email) {
+    return String(email || "").trim().toLowerCase();
+  }
+
+  // app.js calls these rather than writing window.TG itself, so the data layer
+  // stays the only thing that shapes window.TG (PLAN 1.2). Neither fires a
+  // Personalization event - the sitemap listens for the sign-in form's submit.
+  TG.signIn = function (email) {
+    var clean = normaliseEmail(email);
+    if (!clean) return null;
+    TG.user = { email: clean };
+    try {
+      window.localStorage.setItem(USER_KEY, JSON.stringify(TG.user));
+    } catch (e) {
+      /* non-fatal: signed in for this page only */
+    }
+    return TG.user;
+  };
+
+  // Site state only. MCP's own cookie still points at the profile this browser
+  // was merged into - see PLAN 7.4 for why that is expected.
+  TG.signOut = function () {
+    TG.user = null;
+    try {
+      window.localStorage.removeItem(USER_KEY);
+    } catch (e) {
+      /* non-fatal */
+    }
+  };
+
+  TG.user = readUser();
 
   // ------------------------------------------------------------------- order
 

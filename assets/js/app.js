@@ -2,7 +2,8 @@
  *
  * Deliberately fires NO Personalization events. All tracking is declarative and
  * lives in the sitemap (PLAN 3.2); this file only maintains window.TG's inputs
- * and paints the page.
+ * and paints the page. That includes sign-in (PLAN 7): this file calls
+ * window.TG.signIn(), and the sitemap's own submit listener sends the identity.
  */
 (function () {
   "use strict";
@@ -105,6 +106,14 @@
   function paintCartCount() {
     var badge = $("#cart-count");
     if (badge) badge.textContent = String(cartCount());
+  }
+
+  // ---------------------------------------------------------------- identity
+
+  // The nav link doubles as the "who am I" indicator on every page.
+  function paintUser() {
+    var link = $("#nav-user");
+    if (link) link.textContent = window.TG.user ? window.TG.user.email : "Sign in";
   }
 
   // ------------------------------------------------------------ product card
@@ -364,6 +373,49 @@
     }
   }
 
+  // PLAN 7.1. Signed out: the form. Signed in: who you are, and a sign-out
+  // button. The form is hidden while signed in so a second email can't be sent
+  // on a browser MCP has already merged into the first (PLAN 7.4).
+  function renderSignIn() {
+    var form = $("#signin-form");
+    var status = $("#signin-status");
+    var display = $("#signin-email-display");
+    var user = window.TG.user;
+
+    if (form) form.hidden = !!user;
+    if (status) status.hidden = !user;
+    if (display) display.textContent = user ? user.email : "";
+  }
+
+  // PLAN 7.3. Same split as add to cart: these handlers only update site
+  // state; the "Sign In" *event* is the sitemap's submit listener on this same
+  // form. The browser's own type="email" required check runs first, so an
+  // invalid address never reaches here - or the sitemap.
+  //
+  // Wired at boot, not after TG_READY: sign-in needs no catalog, and binding
+  // now means this handler is always in place before the beacon even loads.
+  function wireSignIn() {
+    var form = $("#signin-form");
+    if (!form) return;
+    renderSignIn();
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // no page navigation; stay put so the event can send
+      window.TG.signIn($("#signin-email").value);
+      renderSignIn();
+      paintUser();
+    });
+
+    var signout = $("#signout-btn");
+    if (signout) {
+      signout.addEventListener("click", function () {
+        window.TG.signOut();
+        renderSignIn();
+        paintUser();
+      });
+    }
+  }
+
   // --------------------------------------------------------------- load error
 
   // Painted in place of whatever the page would normally render. Every page
@@ -387,6 +439,10 @@
   // -------------------------------------------------------------------- boot
 
   paintCartCount();
+  if (window.TG) {
+    paintUser();
+    wireSignIn();
+  }
 
   if (!window.TG_READY) {
     console.error(

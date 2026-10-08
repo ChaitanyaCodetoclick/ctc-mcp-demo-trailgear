@@ -191,6 +191,15 @@ button:disabled { background: var(--muted); cursor: not-allowed; }
 .load-error p { margin: 6px 0 0; }
 .actions { margin-top: 20px; display: flex; gap: 16px; align-items: center; }
 
+/* ---------------------------------------------------------------- sign in */
+
+.signin-form { display: flex; flex-direction: column; gap: 8px; max-width: 360px; }
+.signin-form label { font-size: 14px; font-weight: 600; }
+.signin-form input { font: inherit; padding: 8px; border: 1px solid var(--line); border-radius: 4px; }
+.signin-form button { align-self: flex-start; }
+.signin-form[hidden] { display: none; } /* display:flex above would override [hidden] */
+.signin-status p { margin: 0 0 12px; }
+
 @media (max-width: 720px) {
   #product-detail { grid-template-columns: 1fr; }
 }

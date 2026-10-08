@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in | TrailGear Outfitters</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<!-- pageType "signin". Submitting the form is what triggers identity
+     resolution: app.js stores the email via window.TG.signIn(), and the
+     sitemap's submit listener sends it to MCP (PLAN 7). -->
+<script src="assets/js/datalayer.js" data-page-type="signin"></script>
+</head>
+<body>
+
+<header>
+  <a class="brand" href="index.html">TrailGear Outfitters</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="signin.html" id="nav-user">Sign in</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Sign in</h1>
+  <p class="lede">Demo only: email, no password. Use a made-up address such as demo1@example.com, never a real one.</p>
+
+  <!-- In the initial HTML, not created by app.js, so the sitemap's submit
+       listener (PLAN 7.3) always has an element to bind to. type="email" and
+       required are the only validation: the browser blocks the submit event
+       itself, so neither app.js nor the sitemap ever sees a bad address. -->
+  <form id="signin-form" class="signin-form">
+    <label for="signin-email">Email</label>
+    <input id="signin-email" name="email" type="email" required autocomplete="email" placeholder="demo1@example.com">
+    <button type="submit">Sign in</button>
+  </form>
+
+  <div id="signin-status" class="signin-status" hidden>
+    <p>Signed in as <strong id="signin-email-display"></strong></p>
+    <button id="signout-btn" type="button">Sign out</button>
+  </div>
+</main>
+
+<footer>Fictional retailer. Demo site for Marketing Cloud Personalization.</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
